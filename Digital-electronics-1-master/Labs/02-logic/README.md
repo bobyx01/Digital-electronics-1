@@ -1,6 +1,6 @@
 # Lab 2: Combinational logic
 
-
+Symulace: https://www.edaplayground.com/x/kUqX
 
 #
 
