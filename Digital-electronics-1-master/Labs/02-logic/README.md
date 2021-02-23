@@ -47,6 +47,11 @@ K-map for the PoS
 ##
 ### Minimalizace 
 ![equations](Images/funkce.png)
+
+###  VHDL code design file
+![equations](Images/AA.png)
+### VHDL code testbench file
+![equations](Images/AAA.png)
 ### Simulace konzole
 ##
 ![equations](Images/4bit_test.png)
