@@ -1,6 +1,7 @@
 # Lab 2: Combinational logic
 
-Simulace: https://www.edaplayground.com/x/PHBY
+Simulace: 2 bit https://www.edaplayground.com/x/PHBY
+          4 bit https://www.edaplayground.com/x/D2PD
 
 #
 
