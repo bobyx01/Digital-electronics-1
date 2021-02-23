@@ -47,4 +47,4 @@ Simulace: 2 bit https://www.edaplayground.com/x/PHBY
 
 
 ##
-![equations](Images/functions.png)
+![equations](Images/funkce.png)
