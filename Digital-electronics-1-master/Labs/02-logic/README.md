@@ -1,7 +1,9 @@
 # Lab 2: Combinational logic
 
-Simulace: 2 bit https://www.edaplayground.com/x/PHBY
-          4 bit https://www.edaplayground.com/x/D2PD
+### Simulace: 
+2 bit https://www.edaplayground.com/x/PHBY
+
+4 bit https://www.edaplayground.com/x/D2PD
 
 #
 
@@ -47,4 +49,8 @@ Simulace: 2 bit https://www.edaplayground.com/x/PHBY
 
 
 ##
+### Minimalizace 
 ![equations](Images/funkce.png)
+### Simulace konzole
+##
+![equations](Images/4bit_test.png)
