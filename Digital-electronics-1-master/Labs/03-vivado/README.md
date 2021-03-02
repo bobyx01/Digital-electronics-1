@@ -1,6 +1,6 @@
 # Lab 3: Introduction to Vivado
 
-![Logo](../../logolink_eng.jpg)
+
 
 ### Learning objectives
 
