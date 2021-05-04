@@ -184,4 +184,4 @@ hex2seg : entity work.hex_7seg
          '0';
 ````
 
-![equations](Images/(04-LED.png)
+![equations](Images/04-LED.png)
