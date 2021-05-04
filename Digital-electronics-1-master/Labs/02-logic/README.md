@@ -1,6 +1,15 @@
 # Lab 2: Combinational logic
 
+<<<<<<< HEAD
 https://www.edaplayground.com/x/kUqX
+=======
+### Simulace: 
+2 bit https://www.edaplayground.com/x/PHBY
+
+4 bit https://www.edaplayground.com/x/D2PD
+
+#
+>>>>>>> 3b8842235a1565c8d325b2d3261648ff4d7bc436
 
 | **Dec. equivalent** | **B[1:0]** | **A[1:0]** | **B is greater than A** | **B equals A** | **B is less than A** |
 | :-: | :-: | :-: | :-: | :-: | :-: |
@@ -28,6 +37,7 @@ https://www.edaplayground.com/x/kUqX
 | 11 | 0 | 0 | 1 | 0 |
 | 10 | 0 | 0 | 0 | 1 |
 
+<<<<<<< HEAD
 | **B1,B0\A1,A0** | **00** | **01** | **11** | **10** |
 | :-: | :-: | :-: | :-: | :-: |
 | 00 | 0 | 0 | 0 | 0 |
@@ -150,3 +160,27 @@ Use [git commands](https://github.com/tomas-fryza/Digital-electronics-1/wiki/Git
     * Link to your public EDA Playground example in the form `https://www.edaplayground.com/...`
 
 *Prepare all tasks in your README file `Digital-electronics-1/Labs/02-logic/README.md`, [export/print it to PDF](https://github.com/tomas-fryza/Digital-electronics-1/wiki/Export-MD-to-PDF), use [BUT e-learning](https://moodle.vutbr.cz/) web page and submit a single PDF file. The deadline for submitting the task is the day before the next laboratory exercise.*
+=======
+K-map for the SoP
+
+![equations](Images/KG_1.png)
+##
+K-map for the PoS
+
+![equations](Images/KG_2.png)
+
+
+
+
+##
+### Minimalizace 
+![equations](Images/funkce.png)
+
+###  VHDL code design file
+![equations](Images/AA.png)
+### VHDL code testbench file
+![equations](Images/AAA.png)
+### Simulace konzole
+##
+![equations](Images/4bit_test.png)
+>>>>>>> 3b8842235a1565c8d325b2d3261648ff4d7bc436
