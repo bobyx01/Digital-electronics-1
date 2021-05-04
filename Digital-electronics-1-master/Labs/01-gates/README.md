@@ -1,176 +1,77 @@
-# Lab 1: Introduction to Git and VHDL
+# H1 Digital-electronics-1 
+## 01-gates
+[Hykš 01-Digital-electronics-1](https://github.com/mrhyks/Digital-electronics-1)
 
-![Logo](../../logolink_eng.jpg)
+[Hykš 01-gates De Morganovy zákony](https://www.edaplayground.com/x/qfxM)
 
-### Learning objectives
+<a href="https://www.codecogs.com/eqnedit.php?latex=f(c,a,b)=\overline{b}\cdot&space;a&plus;\overline{c}&space;\cdot&space;\overline{b}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?f(c,a,b)=\overline{b}\cdot&space;a&plus;\overline{c}&space;\cdot&space;\overline{b}" title="f(c,a,b)=\overline{b}\cdot a+\overline{c} \cdot \overline{b}" /></a>
 
-The purpose of this laboratory exercise is to learn how to use the git versioning system, write the markdown readme file, use the Linux console terminal to work in the lab, and how to compose a basic VHDL code using the online development tool.
+<a href="https://www.codecogs.com/eqnedit.php?latex=f(c,a,b)_{NAND}=\overline{\overline{\overline{b}\cdot&space;a}\cdot\overline{\overline{c}&space;\cdot&space;\overline{b}&space;}}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?f(c,a,b)_{NAND}=\overline{\overline{\overline{b}\cdot&space;a}\cdot\overline{\overline{c}&space;\cdot&space;\overline{b}&space;}}" title="f(c,a,b)_{NAND}=\overline{\overline{\overline{b}\cdot a}\cdot\overline{\overline{c} \cdot \overline{b} }}" /></a>
 
-![Screenshot od EDA Playground](Images/screenshot_eda.png)
+<a href="https://www.codecogs.com/eqnedit.php?latex=f(c,a,b)_{NOR}=\overline{\overline{(B&plus;\overline{A})&plus;(C&plus;B)}}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?f(c,a,b)_{NOR}=\overline{\overline{(B&plus;\overline{A})&plus;(C&plus;B)}}" title="f(c,a,b)_{NOR}=\overline{\overline{(B+\overline{A})+(C+B)}}" /></a>
+	
 
+![alt text](https://raw.githubusercontent.com/mrhyks/Digital-electronics-1/main/Labs/01-gates/01-gates.png "")
+| **c** | **b** | **a** | **f(c,b,a)** |
+| :-: | :-: | :-: | :-: |
+| 0 | 0 | 0 | 0 |
+| 0 | 0 | 1 | 1 |
+| 0 | 1 | 0 | 0 |
+| 0 | 1 | 1 | 0 |
+| 1 | 0 | 0 | 0 |
+| 1 | 0 | 1 | 1 |
+| 1 | 1 | 0 | 0 | 
+| 1 | 1 | 1 | 0 | 
 
-## Preparation tasks (done before the lab at home)
+library ieee;               
+use ieee.std_logic_1164.all;
 
-Create an account on [GitHub](https://github.com/).
+entity gates is
+	port(
+    	a_i:in std_logic;
+        b_i:in std_logic;
+        c_i:in std_logic;
+        f_o:out std_logic;
+        fnand_o:out std_logic;
+        fnor_o:out std_logic
+        );
+end entity gates;
 
-If you don't have Google or Facebook account, register your account on [EDA Playground](https://www.edaplayground.com/login).
+architecture dataflow of gates is
+begin
+    f_o <= ((not(b_i) and a_i) or (not(c_i) and not(b_i)));
+    fnand_o <= ((not(b_i)nand a_i) nand (not(c_i)nand not(b_i)));
+    fnor_o <= (not((b_i nor not(a_i)) nor (c_i nor b_i)));
 
-Download and install [git](https://git-scm.com/).
-
-
-## Part 1: GitHub
-
-GitHub is a code hosting platform for collaboration and version control. GitHub lets you (and others) work together on projects.
-
-In GitHub, create a new public repository titled **Digital-electronics-1**. Initialize a README and [MIT license](https://choosealicense.com/licenses/mit/).
-
-Use one of the available git manuals, such as [1](https://medium.com/swlh/how-to-make-the-perfect-readme-md-on-github-92ed5771c061), [2](https://help.github.com/en/articles/basic-writing-and-formatting-syntax), or [3](https://guides.github.com/features/mastering-markdown/), and add the following sections to your README file.
-
-   * Headers
-   * Emphasis (italics, bold)
-   * Lists (ordered, unordered)
-   * Links
-   * Table
-   * Listing of VHDL source code (with syntax highlighting)
-
-
-## Part 2: Local repository
-
-Run Git Bash (Windows) of Terminal (Linux) and create your own home folder inside `Documents`.
-
-```bash
-## Windows Git Bash:
-$ cd d:/Documents/
-$ mkdir your-name
-$ cd your-name/
-
-## Linux:
-$ cd
-$ cd Documents/
-$ mkdir your-name
-$ cd your-name/
-```
-
-With help of `git` command, clone a local copy of your public repository.
-
-```bash
-## Windows Git Bash or Linux:
-$ git clone https://github.com/your-github-account/Digital-electronics-1
-$ cd Digital-electronics-1/
-$ ls
-LICENSE  README.md
-```
-
-Download `Docs` folder from [this repository](https://github.com/tomas-fryza/Digital-electronics-1) and copy it to your `Digital-electronics-1` local repository.
-
-```bash
-## Windows Git Bash or Linux:
-$ ls
-Docs  LICENSE  README.md
-```
-
-Create a new working folder `Labs/01-gates` for this exercise.
-
-```bash
-## Windows Git Bash or Linux:
-$ mkdir Labs
-$ cd Labs/
-$ mkdir 01-gates
-```
+end architecture dataflow;
 
 
-## Part 3: EDA Playground
 
-Open the [Example of basic gates](https://www.edaplayground.com/x/5L92). Take a look at the basic parts of the VHDL source code, such as [entity](https://github.com/tomas-fryza/Digital-electronics-1/wiki/Entity), [architecture](https://github.com/tomas-fryza/Digital-electronics-1/wiki/Architecture), and testbench. Use button **Run** to run the simulation and log in to your account using **Log In (save edits)**.
-
-Most common VHDL operators are shown in the table.
-
-| **Operator** | **Description** |
-| :-: | :-- |
-| `<=` | Value assignment |
-| `and` | Logical AND |
-| `nand` | Logical AND with negated output |
-| `or` | Logical OR |
-| `nor` | Logical OR with negated output |
-| `not` | Nagation |
-| `xor` | Exclusive OR |
-| `xnor` | Exclusive OR with negated output |
-| `-- comment` | Comments |
-
-Use De Morgan's laws and modify the following logic function to the form with NAND and NOR gates only. Verify all three functions in EDA Playground tool.
-
-![Logic function](Images/equations.png)
-
-> Note that, equations were generated by [Online LaTeX Equation Editor](https://www.codecogs.com/latex/eqneditor.php) using the following code.
-```LaTeX
-\begin{align*}
-    f(c,b,a) =&~ \overline{b}\,a + \overline{c}\,\overline{b}\\
-    f(c,b,a)_{\textup{NAND}} =&\\
-    f(c,b,a)_{\textup{NOR}} =&\\
-\end{align*}
-```
->
-
-Run any text editor, such as *Visual Studio Code* or *Atom*, open/create your `Digital-electronics-1/Labs/01-gates/README.md` local file (not on GitHub), complete tables with logical values, add link to your Playground and a screenshot with time waveforms from the simulator.
-
-| **c** | **b** |**a** | **f(c,b,a)** | **f_NAND(c,b,a)** | **f_NOR(c,b,a)** |
-| :-: | :-: | :-: | :-: | :-: | :-: |
-| 0 | 0 | 0 |  |  |  |
-| 0 | 0 | 1 |  |  |  |
-| 0 | 1 | 0 |  |  |  |
-| 0 | 1 | 1 |  |  |  |
-| 1 | 0 | 0 |  |  |  |
-| 1 | 0 | 1 |  |  |  |
-| 1 | 1 | 0 |  |  |  |
-| 1 | 1 | 1 |  |  |  |
+![alt text](https://raw.githubusercontent.com/mrhyks/Digital-electronics-1/main/Labs/01-gates/01-gates-distribuce.png "")
 
 
-## Synchronize git
 
-When you finish working, always synchronize the contents of your working folder with the local and remote versions of your repository. This way you are sure that you will not lose any of your changes.
+library ieee;               
+use ieee.std_logic_1164.all;
 
-Use [git commands](https://github.com/tomas-fryza/Digital-electronics-1/wiki/Git-useful-commands) to add, commit, and push all local changes to your remote repository. Note that, a detailed description of all git commands can be found [here](https://github.com/joshnh/Git-Commands). Check the repository at GitHub web page for changes.
+entity gates is
+	port(
+    	x_i:in std_logic;
+        y_i:in std_logic;
+        z_i:in std_logic;
+        f1_1:out std_logic;
+        f1_2:out std_logic;
+        f2_1:out std_logic;
+        f2_2:out std_logic
+        );
+end entity gates;
 
-```bash
-## Windows Git Bash or Linux:
-$ git status
-$ git add <your-modified-files>
-$ git status
-$ git commit -m "[LAB] Creating 01-gates lab"
-$ git status
-$ git push
-$ git status
-```
+architecture dataflow of gates is
+begin
+    f1_1 <= ((x_i and y_i) or (x_i and z_i));
+    f1_2 <= (x_i and (y_i or z_i));
+    f2_1 <= ((x_i or y_i) and (x_i or z_i));
+    f2_2 <= (x_i or (y_i and z_i));
 
+end architecture dataflow;
 
-## Experiments on your own
-
-1. In EDA Playground, verify Distributive laws:
-
-![Distributive law1](Images/distributive1.png)
-
-![Distributive law2](Images/distributive2.png)
-
-2. Try several online graphics simulators, such as [CircuitVerse](https://circuitverse.org/), [Logicly](https://logic.ly/), [CircuitLab](https://www.circuitlab.com/), [simulatorIO](https://simulator.io/), [LogicEmu](https://lodev.org/logicemu/), and compare their options.
-
-
-## Lab assignment
-
-1. Submit the link to your `Digital-electronics-1` GitHub repository in the form `https://github.com/...`
-
-2. Verification of De Morgan's laws of function f(c,b,a). Submit:
-    * Equations of all three versions of logic function f(c,b,a),
-
-     ![Logic function](Images/equations.png)
-    * Completed table with logic functions' values,
-    * Listing of VHDL architecture from design file (`design.vhd`) with syntax highlighting,
-    * Screenshot with simulated time waveforms of all three functions,
-    * Link to your public EDA Playground example in the form `https://www.edaplayground.com/...`
-
-3. Verification of Distributive laws. Submit:
-    * Completed table with logic functions' values,
-    * Listing of VHDL architecture from design file (`design.vhd`) with syntax highlighting,
-    * Screenshot with simulated time waveforms of all four functions,
-    * Link to your public EDA Playground example in the form `https://www.edaplayground.com/...`
-
-*Prepare all tasks in your README file `Digital-electronics-1/Labs/01-gates/README.md`, [export/print it to PDF](https://github.com/tomas-fryza/Digital-electronics-1/wiki/Export-MD-to-PDF), use [BUT e-learning](https://moodle.vutbr.cz/) web page and submit a single PDF file. The deadline for submitting the task is the day before the next laboratory exercise.*
