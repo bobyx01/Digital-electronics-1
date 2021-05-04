@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="comparator_2bit_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="comparator_2bit" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0fs"></ZoomStartTime>
+      <ZoomEndTime time="122303fs"></ZoomEndTime>
+      <Cursor1Time time="1000000fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <ValueColumnWidth column_width="72"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="5" />
+   <wvobject fp_name="/comparator_2bit/a_i" type="array">
+      <obj_property name="ElementShortName">a_i[1:0]</obj_property>
+      <obj_property name="ObjectShortName">a_i[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/comparator_2bit/b_i" type="array">
+      <obj_property name="ElementShortName">b_i[1:0]</obj_property>
+      <obj_property name="ObjectShortName">b_i[1:0]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+   </wvobject>
+   <wvobject fp_name="/comparator_2bit/B_greater_A_o" type="logic">
+      <obj_property name="ElementShortName">B_greater_A_o</obj_property>
+      <obj_property name="ObjectShortName">B_greater_A_o</obj_property>
+   </wvobject>
+   <wvobject fp_name="/comparator_2bit/B_equals_A_o" type="logic">
+      <obj_property name="ElementShortName">B_equals_A_o</obj_property>
+      <obj_property name="ObjectShortName">B_equals_A_o</obj_property>
+   </wvobject>
+   <wvobject fp_name="/comparator_2bit/B_less_A_o" type="logic">
+      <obj_property name="ElementShortName">B_less_A_o</obj_property>
+      <obj_property name="ObjectShortName">B_less_A_o</obj_property>
+      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+</wave_config>
