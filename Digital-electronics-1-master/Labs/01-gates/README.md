@@ -47,7 +47,7 @@ end architecture dataflow;
 
 
 
-![alt text](https://raw.githubusercontent.com/mrhyks/Digital-electronics-1/main/Labs/01-gates/01-gates-distribuce.png "")
+![equations](Images/distribuce.png)
 
 
 
