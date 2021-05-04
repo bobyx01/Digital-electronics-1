@@ -109,7 +109,7 @@ p_stimulus : process
     end process p_stimulus;
 ````
 
-![simulace](04-simulation.png)
+![Images](04-simulation.png)
 
 
 ````vhdl
@@ -184,4 +184,4 @@ hex2seg : entity work.hex_7seg
          '0';
 ````
 
-![simulace](04-LED74.png)
+![Image](04-LED74.png)
