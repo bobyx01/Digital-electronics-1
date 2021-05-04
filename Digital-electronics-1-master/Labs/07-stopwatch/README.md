@@ -1,145 +1,513 @@
-# Lab 7: Stopwatch
+# H1 Digital-electronics-1 
+## 07-flip_flops
+## 1. Přírava
+<img src="D_ff.png">
 
-![Logo](../../logolink_eng.jpg)
+   | **clk** | **d** | **q(n)** | **q(n+1)** | **Comments** |
+   | :-: | :-: | :-: | :-: | :-: |
+   | ^ | 0 | 0 | 0 | No Change |
+   | ^ | 0 | 1 | 0 | Set |
+   | ^ | 1 | 0 | 1 | No Change |
+   | ^ | 1 | 1 | 1 | Set |
+   
+<img src="JK_ff.png">
 
-### Learning objectives
+   | **clk** | **j** | **k** | **q(n)** | **q(n+1)** | **Comments** |
+   | :-: | :-: | :-: | :-: | :-: | :-- |
+   | ^ | 0 | 0 | 0 | 0 | No change |
+   | ^ | 0 | 0 | 1 | 1 | No change |
+   | ^ | 0 | 1 | 0 | 0 | Reset |
+   | ^ | 0 | 1 | 1 | 0 | Reset |
+   | ^ | 1 | 0 | 0 | 1 | Set |
+   | ^ | 1 | 0 | 1 | 1 | Set |
+   | ^ | 1 | 1 | 0 | 1 | Toggle |
+   | ^ | 1 | 1 | 1 | 0 | Toggle |
+   
+<img src="T_ff.png">
 
-In this laboratory exercise, you will implement several decimal counters to create a stopwatch and display its value on 7-segment displays. Let the stopwatch has four places, from tens of seconds to hundreds of seconds.
+   | **clk** | **t** | **q(n)** | **q(n+1)** | **Comments** |
+   | :-: | :-: | :-: | :-: | :-- |
+   | ^ | 0 | 0 | 0 | 1 | No Change |
+   | ^ | 0 | 1 | 1 | 0 | No Change |
+   | ^ | 1 | 0 | 1 | 0 | Invert |
+   | ^ | 1 | 1 | 0 | 1 | Invert |
+   
+## 2. D-Latch 
+````vhdl
+p_d_latch : process (d, arst, en)
+    begin
+        if(arst = '1') then
+            q     <= '0';
+            q_bar <= '1';
+        elsif(en = '1') then
+            q     <= d;
+            q_bar <= not d;   
+        end if;     
+    end process p_d_latch;
+````
+````vhdl
+p_reset_gen : process
+    begin
+        s_arst <= '0';
+        wait for 38 ns;
+        
+        --Reset on
+        s_arst <= '1';
+        wait for 53ns;
+        
+        --Reset off
+        s_arst <= '0';  
+        wait for 300ns;
+        s_arst <= '1';
+        
+        wait;     
+    end process p_reset_gen;
+    
+    p_stimulus : process
+    begin
+        report "Stimulus process started" severity note;
+        s_d <= '0';
+        s_en <= '0';
+        
+        assert (s_q = '0')
+        report "asdasd" severity note;
+        
+        --d sekv
+        wait for 10ns;
+        s_d <= '1';
+        wait for 10ns;
+        s_d <= '0';
+        wait for 10ns;
+        s_d <= '1';
+        wait for 10ns;
+        s_d <= '0';
+        wait for 10ns;
+        s_d <= '1';
+        wait for 10ns;
+        s_d <= '0';
+        
+        assert (s_q = '0' and s_q_bar = '1')
+        report "asdasd" severity note;
+        
+        s_en <= '1';
+        --d sekv
+        wait for 10ns;
+        s_d <= '1';
+        wait for 10ns;
+        s_d <= '0';
+        wait for 10ns;
+        s_d <= '1';
+        wait for 10ns;
+        s_d <= '0';
+        wait for 10ns;
+        s_en <= '0';  --en=0
+        wait for 200ns;
+        s_d <= '0';
 
-![Nexys A7 board](Images/nexys_a7_stopwatch.jpg)
-
-
-## Preparation tasks (done before the lab at home)
-
-Consider the clock enable circuit from previous laboratories and find out the values of its parameter `g_MAX` so that the output signal `ce_o` has the frequency 100&nbsp;Hz or 1&nbsp;kHz. Let the frequency of the main clock signal be 100&nbsp;MHz.
-
-   | **Frequency** | **Number of clk periods (g_MAX)** | **Number of clk periods in hex** | **Number of clk periods in binary** |
-   | :-: | :-: | :-: | :-: |
-   | 100&nbsp;Hz | | |
-   | 1000&nbsp;Hz | | |
-
-
-## Part 1: Synchronize repositories and create a new folder
-
-Run Git Bash (Windows) of Terminal (Linux), navigate to your working directory, and update local repository. Create a new working folder `Labs/07-stopwatch` for this exercise.
-
-
-## Part 2: VHDL code for stopwatch
-
-Let the stopwatch counts the time in the form of a **seconds.hundredths** and the maximum value is `59.99` (1 minute), then the time is reset to `00.00` and the counting continues. The counter increment must be performed every 10&nbsp;ms (one hundredth of a second) with the clock enable signal. In addition, the counting is started and paused by input signals. The counter value is reset by the synchronous reset input.
-
-Use an approach that uses four different counters (one counter for each decade) and counts from 0 to 9 (or to 5). The lowest of the counters is incremented every 10&nbsp;ms, and each higher-order counter is incremented if all lower-order counters are equal to the maximum value.
-
-Perform the following steps to model the stopwatch counter.
-   1. Create a new Vivado RTL project `stopwatch` in your `Labs/07-stopwatch` working folder.
-   2. Create a VHDL source file `stopwatch_seconds.vhd` for the stopwatch circuit.
-   3. Choose default board: `Nexys A7-50T`.
-   4. Open the [Stopwatch](https://www.edaplayground.com/x/2uKg) example and copy/paste the `design.vhd` code to your `stopwatch_seconds.vhd` file. Copy source file of clock enable circuit from previous labs to `stopwatch/stopwatch.srcs/sources_1/new/` folder and add it to the project.
-   5. Complete the stopwatch code according to the following block diagram.
-
-![Block diagram of stopwatch](Images/schema_stopwatch.jpg)
-
-
-## Part 3: Stopwatch simulation
-
-Perform the following steps to simulate stopwatch counter.
-   1. Create a VHDL simulation source `tb_stopwatch_seconds.vhd`, copy/paste the `testbench.vhd` code from EDA Playground example. Note that the maximum value of clock_enable circuit is set to 1 for the simulation, ie the stopwatch increments its value with a frequency of 100&nbsp;MHz and not 100&nbsp;Hz.
-   2. Change the duration of simulation to 100000ns in **Tools > Settings... > Simulation > Simulation**.
-   3. Complete the input data process `p_stimulus`, run the simulation, and verify that the stopwatch is started, paused, and reset correctly.
-
-
-## Part 4: Top level VHDL code
-
-Perform the following steps to implement the stopwatch counter on the Nexys A7 board.
-   1. Create a new design source `top.vhd` in your project.
-   2. Define an entity `top` as follows.
-
-   | **Port name** | **Direction** | **Type** | **Description** |
-   | :-: | :-: | :-: | :-- |
-   | `CLK100MHZ` | input | `std_logic` | Main clock |
-   | `BTNC` | input | `std_logic` | Synchronous reset |
-   | `BTND` | input | `std_logic` | Start button |
-   | `SW`  | input   | `std_logic_vector(1 - 1 downto 0)` | Pause |
-   | `CA` | output | `std_logic` | Cathod A |
-   | `CB` | output | `std_logic` | Cathod B |
-   | `CC` | output | `std_logic` | Cathod C |
-   | `CD` | output | `std_logic` | Cathod D |
-   | `CE` | output | `std_logic` | Cathod E |
-   | `CF` | output | `std_logic` | Cathod F |
-   | `CG` | output | `std_logic` | Cathod G |
-   | `DP` | output | `std_logic` | Decimal point |
-   | `AN` | output | `std_logic_vector(8 - 1 downto 0)` | Common anode signals to individual displays |
-
-   3. Create a new [constraints XDC](https://github.com/Digilent/digilent-xdc) file: `nexys-a7-50t` and uncomment used pins according to the entity.
-   4. Copy source files of binary counter, 7-segment decoder, display driver modules from previous labs to `stopwatch/stopwatch.srcs/sources_1/new/` folder and add then to the project.
-   5. Use direct instantiation and define an architecture of the top level.
-
-```vhdl
-------------------------------------------------------------------------
--- Architecture body for top level
-------------------------------------------------------------------------
-architecture behavioral of top is
-
-    -- Local counters
-    signal s_cnt3  : std_logic_vector(3 - 1 downto 0);
-    signal s_cnt2  : std_logic_vector(4 - 1 downto 0);
-    signal s_cnt1  : std_logic_vector(4 - 1 downto 0);
-    signal s_cnt0  : std_logic_vector(4 - 1 downto 0);
-
-begin
-    --------------------------------------------------------------------
-    -- Instance (copy) of stopwatch_seconds entity
-    stopwatch_sec : entity work.stopwatch_seconds
-        port map(
-            clk   => CLK100MHZ,
-            reset => BTNC,
-            --- WRITE YOUR CODE HERE
-        );
-
-    --------------------------------------------------------------------
-    -- Instance (copy) of driver_7seg_4digits entity
-    driver_seg_4 : entity work.driver_7seg_4digits
-        port map(
-            clk                 => CLK100MHZ,
-            reset               => BTNC,
-            data3_i(3)          => '0',
-            data3_i(2 downto 0) => s_cnt3,
-            --- WRITE YOUR CODE HERE
-        );
-
-    -- Disconnect the top four digits of the 7-segment display
-    AN(7 downto 4) <= b"1111";
-
-end architecture behavioral;
-```
-
-![Block diagram of top level](Images/schema_top.jpg)
-
-   5. Compile the project and download the generated bitstream `stopwatch/stopwatch.runs/impl_1/top.bit` into the FPGA chip.
-   6. Test the functionality of the stopwatch by pressing the buttons, toggling the switch, and observing the display.
-   7. Use **IMPLEMENTATION > Open Implemented Design > Schematic** to see the generated structure.
-
-
-## Synchronize repositories
-
-Use [git commands](https://github.com/tomas-fryza/Digital-electronics-1/wiki/Git-useful-commands) to add, commit, and push all local changes to your remote repository. Check the repository at GitHub web page for changes.
+        
+        --d sekv
+        wait for 10ns;
+        s_d <= '1';
+        wait for 10ns;
+        s_d <= '0';
+        wait for 10ns;
+        s_d <= '1';
+        wait for 10ns;
+        s_d <= '0';
+        wait for 10ns;
+        s_d <= '1';
+        wait for 10ns;
 
 
-## Experiments on your own
+    end process p_stimulus;
+````
+<img src="d_latch.png">
 
-1. Design the structure of `stopwatch_minutes` module, which also counts minutes to the maximum form `59.59.99` (1 hour).
-2. Suggest a way to verify the accuracy of the stopwatch.
+##3. D Flip-Flop asynchronní
+````vhdl
+p_d_ff_arst : process (clk, arst)
+    begin 
+        if(arst ='1')then
+            q     <= '0';
+            q_bar <= '1';
+        elsif rising_edge(clk) then
+            q     <= d;
+            q_bar <= not d;
+        end if;
+    end process p_d_ff_arst;
+````
+````vhdl
+p_clk_gen : process
+    begin
+        while now < 750 ns loop         -- 75 periods of 100MHz clock
+            s_clk_100MHz <= '0';
+            wait for c_CLK_100MHZ_PERIOD / 2;
+            s_clk_100MHz <= '1';
+            wait for c_CLK_100MHZ_PERIOD / 2;
+        end loop;
+        wait;
+    end process p_clk_gen;
 
+    p_reset_gen : process
+    begin
+        s_arst <= '0';
+        wait for 28 ns;
+        
+        s_arst <= '1';
+        wait for 13ns;
+        
+        s_arst <= '0'; 
+        
+        wait for 17 ns;
+        s_arst <= '1'; 
+             
+        wait for 33ns;
+        s_arst <= '0';
+                     
+        wait for 660 ns;        
+        s_arst <= '1';
 
-## Lab assignment
+        wait;     
+    end process p_reset_gen;
+    p_stimulus : process
+    begin
+        report "Stimulus process started" severity note;
+        s_d <= '0';
+        
+        --d sekv
+        wait for 14ns;
+        s_d <= '1';
+        wait for 10ns;
+        s_d <= '0';     
+        wait for 6ns;
+        --assert()
+        --report "";
+        wait for 4ns;
+        s_d <= '1';
+        wait for 10ns;
+        s_d <= '0';
+        wait for 10ns;
+        s_d <= '1';
+        wait for 10ns;
+        s_d <= '0';
+        wait for 10ns;
+        s_d <= '1';
+        wait for 10ns;
+        s_d <= '0';
+        --/d sekv
+        
 
-1. Stopwatch. Submit:
-    * VHDL code of the process `p_stopwatch_cnt`,
-    * VHDL code of the simulation process `p_stimulus`,
-    * Screenshot(s) of the simulation, from which it is clear that start, pause and reset work correctly,
-    * VHDL code of the top layer architecture.
+        --d sekv
+        wait for 10ns;
+        s_d <= '1';
+        wait for 10ns;
+        s_d <= '0';
+        wait for 10ns;
+        s_d <= '1';
+        wait for 10ns;
+        s_d <= '0';
+        wait for 10ns;
+        s_d <= '1';
+        wait for 10ns;
+        s_d <= '0';
+        wait for 10ns;
+        s_d <= '1';
+        wait for 10ns;
+        s_d <= '0';
+        --/d sekv
+        
+        --d sekv
+        wait for 10ns;
+        s_d <= '1';
+        wait for 10ns;
+        s_d <= '0';
+        wait for 10ns;
+        s_d <= '1';
+        wait for 10ns;
+        s_d <= '0';
+        wait for 10ns;
+        s_d <= '1';
+        wait for 10ns;
+        s_d <= '0';
+        wait for 10ns;
+        s_d <= '1';
+        wait for 10ns;
+        s_d <= '0';
+        --/d sekv
+    end process p_stimulus;
+````
+<img src="d_ff_arst.png">
 
-2. Stopwatch with minutes. Submit:
-    * (Hand-drawn) sketch of the stopwatch schematic.
+##4. T Flip-Flop
+````vhdl
+p_t_ff_rst : process (clk)
+    begin 
+        if rising_edge(clk) then
+            if(rst = '1')then
+                s_q <= '0';        
+            else
+                if(t='0' and s_q='0') then
+                    s_q <= s_q;
+                elsif(t='0' and s_q='1') then
+                    s_q <= s_q;
+                elsif(t='1' and s_q='0') then
+                    s_q <= not s_q;
+                elsif(t='1' and s_q='1') then
+                    s_q <= not s_q;
+                end if;
+            end if;
+        end if;    
+    end process p_t_ff_rst;
+    q     <= s_q;
+    q_bar <= not s_q;
+````
+````vhdl
+uut_jk_ff_rst: entity work.t_ff_rst
+    port map(
+        clk => s_clk_100MHz,
+        rst => s_rst,
+        t => s_t,
+        q => s_q,
+        q_bar => s_q_bar
+    );
+   p_clk_gen : process
+    begin
+        while now < 750 ns loop         -- 75 periods of 100MHz clock
+            s_clk_100MHz <= '0';
+            wait for c_CLK_100MHZ_PERIOD / 2;
+            s_clk_100MHz <= '1';
+            wait for c_CLK_100MHZ_PERIOD / 2;
+        end loop;
+        wait;
+    end process p_clk_gen;
 
-The deadline for submitting the task is the day before the next laboratory exercise. Use [BUT e-learning](https://moodle.vutbr.cz/) web page and submit a single PDF file.
+    p_reset_gen : process
+    begin
+        s_rst <= '0';
+        
+        wait for 28 ns;
+        s_rst <= '1';
+        
+        wait for 14ns;
+        s_rst <= '0';  
+        
+        wait for 37 ns;
+        s_rst <= '1';
+        
+        wait for 33 ns;
+        s_rst <= '0';
+        
+        wait for 300ns;
+        s_rst <= '1';
+        wait;     
+    end process p_reset_gen;
+    p_stimulus : process
+    begin
+        report "Stimulus process started" severity note;
+        s_t <= '0';
+        wait for 40 ns;
+        s_t <= '1';
+        wait for 7 ns;
+        s_t <= '0';
+        wait for 20 ns;
+        s_t <= '1';
+        report "Stimulus process finished" severity note;
+        wait;
+    end process p_stimulus; 
+````
+<img src="t_ff_rst.png">
+
+##5. D Flip-Flop
+
+````vhdl
+p_d_ff_rst : process (clk)
+    begin 
+        if rising_edge(clk) then
+            if(rst ='1')then
+                q     <= '0';
+                q_bar <= '1';
+            elsif rising_edge(clk) then
+                q     <= d;
+                q_bar <= not d;
+            end if;
+        end if;
+    end process p_d_ff_rst;
+````
+````vhdl
+ p_clk_gen : process
+    begin
+        while now < 750 ns loop         -- 75 periods of 100MHz clock
+            s_clk_100MHz <= '0';
+            wait for c_CLK_100MHZ_PERIOD / 2;
+            s_clk_100MHz <= '1';
+            wait for c_CLK_100MHZ_PERIOD / 2;
+        end loop;
+        wait;
+    end process p_clk_gen;
+
+    p_reset_gen : process
+    begin
+        s_rst <= '0';
+        wait for 28 ns;
+        
+        s_rst <= '1';
+        wait for 13ns;
+        
+        s_rst <= '0'; 
+        
+        wait for 17 ns;
+        s_rst <= '1'; 
+             
+        wait for 33ns;
+        s_rst <= '0';
+                     
+        wait for 660 ns;        
+        s_rst <= '1';
+
+        wait;     
+    end process p_reset_gen;
+    p_stimulus : process
+    begin
+        report "Stimulus process started" severity note;
+        s_d <= '0';
+        
+        --d sekv
+        wait for 14ns;
+        s_d <= '1';
+        wait for 10ns;
+        s_d <= '0';     
+        wait for 6ns;
+        --assert()
+        --report "";
+        wait for 4ns;
+        s_d <= '1';
+        wait for 10ns;
+        s_d <= '0';
+        wait for 10ns;
+        s_d <= '1';
+        wait for 10ns;
+        s_d <= '0';
+        wait for 10ns;
+        s_d <= '1';
+        wait for 10ns;
+        s_d <= '0';
+        --/d sekv
+        
+
+        --d sekv
+        wait for 10ns;
+        s_d <= '1';
+        wait for 20ns;
+        s_d <= '0';       
+    end process p_stimulus; 
+````
+<img src="d_ff_rst.png">
+
+## 6. JK Flip-Flop
+````vhdl
+p_jk_ff_rst : process (clk)
+    begin 
+        if rising_edge(clk) then
+            if(rst = '1')then
+                s_q <= '0';        
+            else
+                if(j='0' and k='0') then
+                    s_q <= s_q;
+                elsif(j='0' and k='1') then
+                    s_q <= '0';
+                elsif(j='1' and k='0') then
+                    s_q <= '1';
+                elsif(j='1' and k='1') then
+                    s_q <= not s_q;
+                end if;
+            end if;
+        end if;    
+    end process p_jk_ff_rst;
+    q     <= s_q;
+    q_bar <= not s_q;
+````
+````vhdl
+p_clk_gen : process
+    begin
+        while now < 750 ns loop         -- 75 periods of 100MHz clock
+            s_clk_100MHz <= '0';
+            wait for c_CLK_100MHZ_PERIOD / 2;
+            s_clk_100MHz <= '1';
+            wait for c_CLK_100MHZ_PERIOD / 2;
+        end loop;
+        wait;
+    end process p_clk_gen;
+
+    p_reset_gen : process
+    begin
+        s_rst <= '0';
+        
+        wait for 28 ns;
+        s_rst <= '1';
+        
+        wait for 14ns;
+        s_rst <= '0';  
+        
+        wait for 17 ns;
+        s_rst <= '1';
+        
+        wait for 33 ns;
+        s_rst <= '0';
+        
+        wait for 300ns;
+        s_rst <= '1';
+        wait;     
+    end process p_reset_gen;
+    p_stimulus : process
+    begin
+        report "Stimulus process started" severity note;
+        s_j <= '0';
+        s_k <= '0';
+        --d sekv
+        wait for 40ns;
+        s_j <= '0';
+        s_k <= '0';
+        wait for 7ns;
+        s_j <= '0';
+        s_k <= '1';
+        wait for 7ns;
+        s_j <= '1';
+        s_k <= '0';
+        wait for 7ns;
+        s_j <= '1';
+        s_k <= '1';
+        
+        wait for 7ns;
+        s_j <= '0';
+        s_k <= '0';
+        wait for 7ns;
+        s_j <= '0';
+        s_k <= '1';
+        wait for 7ns;
+        s_j <= '1';
+        s_k <= '0';
+        wait for 7ns;
+        s_j <= '1';
+        s_k <= '1';
+        
+        wait for 7ns;
+        s_j <= '0';
+        s_k <= '0';
+        wait for 7ns;
+        s_j <= '0';
+        s_k <= '1';
+        wait for 7ns;
+        s_j <= '1';
+        s_k <= '0';
+        wait for 7ns;
+        s_j <= '1';
+        s_k <= '1';
+        wait for 5ns;
+        s_j <= '0';
+        s_k <= '0';
+        report "Stimulus process finished" severity note;
+        wait;
+    end process p_stimulus;
+````
+
+<img src="top.jpg">

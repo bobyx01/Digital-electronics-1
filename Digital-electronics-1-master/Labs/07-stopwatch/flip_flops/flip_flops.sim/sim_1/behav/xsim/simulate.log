@@ -1,0 +1,20 @@
+Vivado Simulator 2020.2
+Time resolution is 1 ps
+Note: Stimulus process started
+Time: 0 ps  Iteration: 0  Process: /tb_d_ff_rst/p_stimulus  File: C:/Users/Test/Documents/mrhyks/Digital-electronics-1/Labs/07-ffs/flip_flops/flip_flops.srcs/sim_1/new/tb_d_ff_rst.vhd
+Note: Stimulus process started
+Time: 114 ns  Iteration: 0  Process: /tb_d_ff_rst/p_stimulus  File: C:/Users/Test/Documents/mrhyks/Digital-electronics-1/Labs/07-ffs/flip_flops/flip_flops.srcs/sim_1/new/tb_d_ff_rst.vhd
+Note: Stimulus process started
+Time: 228 ns  Iteration: 0  Process: /tb_d_ff_rst/p_stimulus  File: C:/Users/Test/Documents/mrhyks/Digital-electronics-1/Labs/07-ffs/flip_flops/flip_flops.srcs/sim_1/new/tb_d_ff_rst.vhd
+Note: Stimulus process started
+Time: 342 ns  Iteration: 0  Process: /tb_d_ff_rst/p_stimulus  File: C:/Users/Test/Documents/mrhyks/Digital-electronics-1/Labs/07-ffs/flip_flops/flip_flops.srcs/sim_1/new/tb_d_ff_rst.vhd
+Note: Stimulus process started
+Time: 456 ns  Iteration: 0  Process: /tb_d_ff_rst/p_stimulus  File: C:/Users/Test/Documents/mrhyks/Digital-electronics-1/Labs/07-ffs/flip_flops/flip_flops.srcs/sim_1/new/tb_d_ff_rst.vhd
+Note: Stimulus process started
+Time: 570 ns  Iteration: 0  Process: /tb_d_ff_rst/p_stimulus  File: C:/Users/Test/Documents/mrhyks/Digital-electronics-1/Labs/07-ffs/flip_flops/flip_flops.srcs/sim_1/new/tb_d_ff_rst.vhd
+Note: Stimulus process started
+Time: 684 ns  Iteration: 0  Process: /tb_d_ff_rst/p_stimulus  File: C:/Users/Test/Documents/mrhyks/Digital-electronics-1/Labs/07-ffs/flip_flops/flip_flops.srcs/sim_1/new/tb_d_ff_rst.vhd
+Note: Stimulus process started
+Time: 798 ns  Iteration: 0  Process: /tb_d_ff_rst/p_stimulus  File: C:/Users/Test/Documents/mrhyks/Digital-electronics-1/Labs/07-ffs/flip_flops/flip_flops.srcs/sim_1/new/tb_d_ff_rst.vhd
+Note: Stimulus process started
+Time: 912 ns  Iteration: 0  Process: /tb_d_ff_rst/p_stimulus  File: C:/Users/Test/Documents/mrhyks/Digital-electronics-1/Labs/07-ffs/flip_flops/flip_flops.srcs/sim_1/new/tb_d_ff_rst.vhd
